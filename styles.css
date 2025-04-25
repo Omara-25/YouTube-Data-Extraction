@@ -1,0 +1,355 @@
+body {
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f9fa;
+  color: #333333;
+  line-height: 1.6;
+}
+
+.container {
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-top: 1.5rem;
+  max-width: 1000px; /* Increased from 800px to 1000px */
+  width: 95%;
+}
+
+h1 {
+  color: #8A4FFF;
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+  font-size: 1.75rem;
+}
+
+h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #444;
+}
+
+.btn-primary {
+  background-color: #8A4FFF;
+  border: none;
+  padding: 0.6rem 1.25rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: #7B45E0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(138, 79, 255, 0.2);
+}
+
+.copy-btn {
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: #8A4FFF;
+  margin-left: 0.5rem;
+}
+
+.copy-btn:hover {
+  color: #7B45E0;
+}
+
+.thumbnail {
+  width: 100%;
+  max-height: 120px; /* Further reduced from 150px to 120px */
+  border-radius: 6px;
+  object-fit: contain;
+}
+
+.footer {
+  position: auto;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  margin-top: 20px;
+  color: #000;
+  text-align: center;
+  padding: 10px 0;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.loading-spinner {
+  display: none;
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.metadata-box {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  margin-bottom: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .metadata-box {
+    flex-direction: row;
+    gap: 1.5rem;
+    align-items: center;
+  }
+  .thumbnail {
+    width: 20%;
+    max-height: 110px;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+}
+
+.stats-box {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.25rem;
+  justify-content: center;
+  width: 100%;
+  padding: 0.5rem;
+  background-color: transparent;
+  border-radius: 6px;
+}
+
+@media (min-width: 768px) {
+  .stats-box {
+    margin-top: 0;
+    justify-content: flex-start;
+    gap: 1rem;
+  }
+}
+
+.stats-item {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  background-color: #f0f2f5;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  min-width: 85px;
+  justify-content: center;
+  margin-bottom: 0.15rem;
+  font-weight: 600;
+  color: #555;
+  transition: all 0.2s ease;
+}
+
+.stats-item:hover {
+  background-color: #e6e9ed;
+  transform: translateY(-1px);
+}
+
+.stats-item i {
+  color: #8A4FFF;
+  font-size: 0.8rem;
+  margin-right: 0.15rem;
+}
+
+.card {
+  margin-bottom: 1rem;
+  padding: 1rem 1.25rem;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  transition: all 0.25s ease;
+  background-color: #fafafa;
+}
+
+.card:hover {
+  background-color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.metadata-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  margin-top: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .metadata-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+}
+
+.metadata-item {
+  background-color: #f0f2f5;
+  padding: 0.8rem;
+  border-radius: 8px;
+  text-align: center;
+  transition: all 0.25s ease;
+  border: none;
+}
+
+.metadata-item:hover {
+  transform: translateY(-2px);
+  background-color: white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.metadata-item h6 {
+  color: #8A4FFF;
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.metadata-item p {
+  margin-bottom: 0;
+  font-weight: 500;
+  color: #444;
+  font-size: 0.9rem;
+}
+
+/* Export Buttons Section */
+.export-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.export-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #f0f2f5;
+  color: #555;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.export-btn:hover {
+  background-color: #8A4FFF;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 3px 8px rgba(138, 79, 255, 0.2);
+}
+
+.export-btn i {
+  font-size: 1rem;
+}
+
+@media (max-width: 767.98px) {
+  .export-buttons {
+    flex-direction: column;
+    width: 100%;
+    gap: 0.75rem;
+  }
+  .export-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 0.7rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Animation classes */
+.fade-in {
+  opacity: 1;
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fade-in.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Hidden sections */
+.hidden-section {
+  display: none;
+}
+
+/* Initially hidden elements */
+.initially-hidden {
+  display: none;
+}
+
+/* Show More Button */
+#showMoreBtn {
+  transition: all 0.25s ease;
+  border: none;
+  background-color: #f0f2f5;
+  color: #555;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.6rem 1.2rem;
+  border-radius: 20px;
+}
+
+#showMoreBtn:hover {
+  background-color: #e6e9ed;
+  transform: translateY(-2px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+}
+
+#showMoreBtn:active, #showMoreBtn:focus {
+  background-color: #e6e9ed;
+  box-shadow: none;
+  outline: none;
+}
+
+#showMoreBtn i {
+  margin-right: 5px;
+  transition: transform 0.25s ease;
+  color: #8A4FFF;
+}
+
+.staggered-item {
+  opacity: 1; /* Changed from 0 to 1 to ensure visibility */
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.staggered-item.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.text-blue {
+  color: #8A4FFF;
+}
+
+/* SEO content text color */
+.card h5 i, .card h6 i,
+.staggered-item h5 i, .staggered-item h6 i,
+.text-blue i {
+  color: #8A4FFF;
+}
+
+.card h5, .card h6,
+.staggered-item h5, .staggered-item h6,
+.text-blue, .text-center.text-blue {
+  color: #8A4FFF !important;
+}
+
+/* Make all SEO-related content purple */
+#aboutSection h2, #whyUseSection h2 {
+  color: #8A4FFF;
+}
+
+.card p strong {
+  color: #8A4FFF;
+}
+
+.fade-in h2 i {
+  color: #8A4FFF;
+}

@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>YouTube Metadata Extractor Pro</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <!-- Animation CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+  <!-- Custom Styles -->
+  <link href="styles.css" rel="stylesheet">
+</head>
+
+<body>
+  <!-- Main Container -->
+  <div class="container">
+    <h1 class="text-center"><i class="fab fa-youtube"></i> YouTube Metadata Extractor Pro</h1>
+
+    <!-- Ad Space -->
+    <div class="ad-space">
+      Your Ads Here
+    </div>
+
+    <!-- Form -->
+    <form id="metadataForm">
+      <div class="mb-3">
+        <textarea class="form-control form-control-lg" id="videoUrls" placeholder="Enter YouTube Video URLs (one per line)" required="" rows="3"></textarea>
+      </div>
+      <button class="btn btn-primary w-100" type="submit">Extract Metadata</button>
+    </form>
+
+    <!-- Loading Spinner -->
+    <div class="loading-spinner initially-hidden" id="loadingSpinner">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+
+    <!-- Metadata Result -->
+    <div class="mt-4 initially-hidden" id="metadataResult">
+      <h4 class="mb-2">Metadata:</h4>
+
+      <!-- Thumbnail and Stats Box -->
+      <div class="card">
+        <div class="metadata-box">
+          <img alt="Video Thumbnail" class="thumbnail" id="videoThumbnail" src="placeholder.svg" />
+          <div class="stats-box">
+            <div class="stats-item">
+              <i class="fas fa-eye"></i>
+              <span id="videoViews"></span>
+            </div>
+            <div class="stats-item">
+              <i class="fas fa-thumbs-up"></i>
+              <span id="videoLikes"></span>
+            </div>
+            <div class="stats-item">
+              <i class="fas fa-calendar-alt"></i>
+              <span id="videoUploadDate"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Title Box -->
+      <div class="card">
+        <h5>Title: <span id="videoTitle"></span>
+          <button class="copy-btn" id="copyTitleBtn" type="button" aria-label="Copy title" title="Copy title"><i class="fas fa-copy"></i></button>
+        </h5>
+      </div>
+
+      <!-- Description Box -->
+      <div class="card">
+        <h6>Description:
+          <button class="copy-btn" id="copyDescriptionBtn" type="button" aria-label="Copy description" title="Copy description"><i class="fas fa-copy"></i></button>
+        </h6>
+        <p id="videoDescription"></p>
+      </div>
+
+      <!-- Tags Box -->
+      <div class="card">
+        <h6>Tags:
+          <button class="copy-btn" id="copyTagsBtn" type="button" aria-label="Copy tags" title="Copy tags"><i class="fas fa-copy"></i></button>
+        </h6>
+        <p id="videoTags"></p>
+      </div>
+
+      <!-- Additional Metadata Box -->
+      <div class="metadata-grid">
+        <div class="metadata-item">
+          <h6>Channel</h6>
+          <p id="videoChannel"></p>
+        </div>
+        <div class="metadata-item">
+          <h6>Duration</h6>
+          <p id="videoDuration"></p>
+        </div>
+        <div class="metadata-item">
+          <h6>Category</h6>
+          <p id="videoCategory"></p>
+        </div>
+        <div class="metadata-item">
+          <h6>SEO Score</h6>
+          <p id="seoScore"></p>
+        </div>
+      </div>
+
+      <!-- Export Buttons -->
+      <div class="export-buttons">
+        <button class="export-btn" id="exportJsonBtn" type="button" aria-label="Export as JSON">
+          <i class="fas fa-file-export"></i>
+          Export as JSON
+        </button>
+        <button class="export-btn" id="exportCsvBtn" type="button" aria-label="Export as CSV">
+          <i class="fas fa-file-csv"></i>
+          Export as CSV
+        </button>
+        <button class="export-btn" id="copyAllBtn" type="button" aria-label="Copy all metadata">
+          <i class="fas fa-copy"></i>
+          Copy All Metadata
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Show More Button -->
+  <div class="text-center mt-4 mb-4">
+    <button id="showMoreBtn" class="btn btn-outline-primary" type="button">
+      <i class="fas fa-chevron-down"></i> Show More Information
+    </button>
+  </div>
+
+<!-- About This Tool Section -->
+<div class="container mt-5 fade-in hidden-section" id="aboutSection">
+  <h2 class="text-center text-blue"><i class="fas fa-info-circle"></i> About This Tool</h2>
+  <p class="text-center">The <strong>YouTube Metadata Extractor</strong> is a powerful and easy-to-use tool designed to fetch essential details from any YouTube video. Whether you're a content creator, marketer, SEO expert, or researcher, this tool helps you extract video metadata like <strong>title, description, tags, and thumbnails</strong> in just a few seconds.</p>
+
+  <div class="row text-center mt-4">
+    <div class="col-md-6 staggered-item active">
+      <div class="card p-3 shadow-sm">
+        <h5><i class="fas fa-check-circle"></i> Instant Extraction</h5>
+        <p>Extracts video title, description, and tags instantly with just a URL.</p>
+      </div>
+    </div>
+    <div class="col-md-6 staggered-item active">
+      <div class="card p-3 shadow-sm">
+        <h5><i class="fas fa-image"></i> High-Quality Thumbnails</h5>
+        <p>Displays high-quality video thumbnails with a download option.</p>
+      </div>
+    </div>
+    <div class="col-md-6 staggered-item mt-3 active">
+      <div class="card p-3 shadow-sm">
+        <h5><i class="fas fa-chart-bar"></i> SEO Optimization</h5>
+        <p>Helps with content research, SEO optimization, and competitor analysis.</p>
+      </div>
+    </div>
+    <div class="col-md-6 staggered-item mt-3 active">
+      <div class="card p-3 shadow-sm">
+        <h5><i class="fas fa-user-friends"></i> User-Friendly</h5>
+        <p>Simple, fast, and user-friendly interface for all your metadata needs.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Why Use This Tool Section -->
+<div class="container mt-5 fade-in hidden-section" id="whyUseSection">
+  <h2 class="text-center text-blue"><i class="fas fa-question-circle"></i> Why Use This Tool?</h2>
+
+  <div class="row mt-4">
+    <div class="col-md-6 staggered-item active">
+      <div class="card p-3 shadow-sm">
+        <h5><i class="fas fa-search"></i> SEO &amp; Keyword Research</h5>
+        <p>By extracting video tags and descriptions, you can discover the best keywords and optimize your own videos for higher rankings on YouTube.</p>
+      </div>
+    </div>
+    <div class="col-md-6 staggered-item active">
+      <div class="card p-3 shadow-sm">
+        <h5><i class="fas fa-chart-line"></i> Competitor Analysis</h5>
+        <p>See what metadata top-ranking videos are using and apply similar strategies to improve your content visibility.</p>
+      </div>
+    </div>
+    <div class="col-md-6 mt-3 staggered-item active">
+      <div class="card p-3 shadow-sm">
+        <h5><i class="fas fa-sync-alt"></i> Content Repurposing</h5>
+        <p>Extract descriptions and tags to quickly get ideas for blog posts, social media captions, and other content without starting from scratch.</p>
+      </div>
+    </div>
+    <div class="col-md-6 mt-3 staggered-item active">
+      <div class="card p-3 shadow-sm">
+        <h5><i class="fas fa-image"></i> Effortless Thumbnail Downloads</h5>
+        <p>Want to use a video's thumbnail for reference or create a custom version? This tool allows you to download high-quality thumbnails instantly.</p>
+      </div>
+    </div>
+    <div class="col-md-12 mt-3 staggered-item active">
+      <div class="card p-3 shadow-sm">
+        <h5><i class="fas fa-clock"></i> Saves Time &amp; Effort</h5>
+        <p>Manually checking metadata can be time-consuming. This tool automates the process, saving you valuable time.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  © 2025 <strong>Critical Future</strong>. All Rights Reserved.
+</footer>
+
+  <!-- Bootstrap 5 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Config file with API key -->
+  <script src="config.js"></script>
+
+  <!-- Inline JavaScript -->
+  <script>
+    // YouTube API Key is loaded from config.js
+
+    // Extract Video ID
+    function extractVideoId(url) {
+      const regex = /(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]{11})/;
+      const match = url.match(regex);
+      return match ? match[1] : null;
+    }
+
+    // Copy to Clipboard
+    function copyToClipboard(elementId) {
+      const text = document.getElementById(elementId).textContent;
+      navigator.clipboard.writeText(text).then(() => alert('Copied to clipboard!'));
+    }
+
+    // Export Metadata
+    function exportMetadata(format) {
+      const metadata = {
+        title: document.getElementById('videoTitle').textContent,
+        description: document.getElementById('videoDescription').textContent,
+        tags: document.getElementById('videoTags').textContent,
+        views: document.getElementById('videoViews').textContent,
+        likes: document.getElementById('videoLikes').textContent,
+        uploadDate: document.getElementById('videoUploadDate').textContent,
+        channel: document.getElementById('videoChannel').textContent,
+        duration: document.getElementById('videoDuration').textContent,
+        category: document.getElementById('videoCategory').textContent,
+        seoScore: document.getElementById('seoScore').textContent,
+      };
+      if (format === 'json') {
+        const blob = new Blob([JSON.stringify(metadata, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'metadata.json';
+        a.click();
+      } else if (format === 'csv') {
+        const csv = Object.keys(metadata).map(key => `${key},${metadata[key]}`).join('\n');
+        const blob = new Blob([csv], { type: 'text/csv' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'metadata.csv';
+        a.click();
+      }
+    }
+
+    // Copy All Metadata
+    function copyAllMetadata() {
+      const metadata = {
+        title: document.getElementById('videoTitle').textContent,
+        description: document.getElementById('videoDescription').textContent,
+        tags: document.getElementById('videoTags').textContent,
+        views: document.getElementById('videoViews').textContent,
+        likes: document.getElementById('videoLikes').textContent,
+        uploadDate: document.getElementById('videoUploadDate').textContent,
+        channel: document.getElementById('videoChannel').textContent,
+        duration: document.getElementById('videoDuration').textContent,
+        category: document.getElementById('videoCategory').textContent,
+        seoScore: document.getElementById('seoScore').textContent,
+      };
+      navigator.clipboard.writeText(JSON.stringify(metadata, null, 2)).then(() => alert('All metadata copied to clipboard!'));
+    }
+
+    // Fetch Metadata
+    document.getElementById('metadataForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const videoUrls = document.getElementById('videoUrls').value.split('\n');
+      const videoIds = videoUrls.map(url => extractVideoId(url)).filter(id => id);
+      if (videoIds.length === 0) {
+        alert('Invalid YouTube URLs');
+        return;
+      }
+      document.getElementById('loadingSpinner').classList.remove('initially-hidden');
+      fetchMetadata(videoIds[0]); // Fetch metadata for the first video (extend for multiple videos)
+    });
+
+    function fetchMetadata(videoId) {
+      // Get API key from config.js
+      fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics,contentDetails&id=${videoId}&key=${config.YOUTUBE_API_KEY}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(data => {
+          if (data.items && data.items.length > 0) {
+            const video = data.items[0];
+            const snippet = video.snippet;
+            const stats = video.statistics;
+            const details = video.contentDetails;
+
+            // Set metadata fields
+            document.getElementById('videoTitle').textContent = snippet.title;
+            document.getElementById('videoDescription').textContent = snippet.description;
+            document.getElementById('videoTags').textContent = snippet.tags ? snippet.tags.join(', ') : 'No tags available';
+
+            // Use the highest quality thumbnail available
+            const thumbnailUrl = snippet.thumbnails.maxres ? snippet.thumbnails.maxres.url :
+                              snippet.thumbnails.high ? snippet.thumbnails.high.url :
+                              snippet.thumbnails.standard ? snippet.thumbnails.standard.url :
+                              snippet.thumbnails.medium ? snippet.thumbnails.medium.url :
+                              snippet.thumbnails.default.url;
+
+            document.getElementById('videoThumbnail').src = thumbnailUrl;
+
+            document.getElementById('videoViews').textContent = stats.viewCount;
+            document.getElementById('videoLikes').textContent = stats.likeCount;
+            document.getElementById('videoUploadDate').textContent = new Date(snippet.publishedAt).toLocaleDateString();
+            document.getElementById('videoChannel').textContent = snippet.channelTitle;
+            document.getElementById('videoDuration').textContent = formatDuration(details.duration);
+            document.getElementById('videoCategory').textContent = getCategoryName(snippet.categoryId);
+            document.getElementById('seoScore').textContent = calculateSeoScore(snippet);
+
+            // Show the metadata result section
+            document.getElementById('metadataResult').classList.remove('initially-hidden');
+          } else {
+            alert('No metadata found for this video');
+          }
+          document.getElementById('loadingSpinner').classList.add('initially-hidden');
+        })
+        .catch(error => {
+          console.error('Error details:', error);
+          alert('Error fetching metadata: ' + error.message);
+          document.getElementById('loadingSpinner').classList.add('initially-hidden');
+        });
+    }
+
+    // Format Duration (PT16M15S to 16:15)
+    function formatDuration(duration) {
+      const match = duration.match(/PT(\d+H)?(\d+M)?(\d+S)?/);
+      const hours = (match[1] ? match[1].replace('H', '') : '0').padStart(2, '0');
+      const minutes = (match[2] ? match[2].replace('M', '') : '0').padStart(2, '0');
+      const seconds = (match[3] ? match[3].replace('S', '') : '0').padStart(2, '0');
+      return `${hours}:${minutes}:${seconds}`;
+    }
+
+    // Get Category Name
+    function getCategoryName(categoryId) {
+      const categories = {
+        1: 'Film & Animation',
+        2: 'Autos & Vehicles',
+        10: 'Music',
+        15: 'Pets & Animals',
+        17: 'Sports',
+        18: 'Short Movies',
+        19: 'Travel & Events',
+        20: 'Gaming',
+        21: 'Videoblogging',
+        22: 'People & Blogs',
+        23: 'Comedy',
+        24: 'Entertainment',
+        25: 'News & Politics',
+        26: 'Howto & Style',
+        27: 'Education',
+        28: 'Science & Technology',
+        29: 'Nonprofits & Activism',
+      };
+      return categories[categoryId] || 'Unknown';
+    }
+
+    // Calculate SEO Score
+    function calculateSeoScore(snippet) {
+      // Placeholder logic for SEO score calculation
+      return Math.floor(Math.random() * 100);
+    }
+
+    // Animation for sections
+    document.addEventListener('DOMContentLoaded', function() {
+      // Function to check if element is in viewport
+      function isInViewport(element) {
+        const rect = element.getBoundingClientRect();
+        return (
+          rect.top <= (window.innerHeight || document.documentElement.clientHeight) &&
+          rect.bottom >= 0
+        );
+      }
+
+      // Function to handle scroll animation
+      function handleScrollAnimation() {
+        // Animate sections
+        document.querySelectorAll('.fade-in').forEach(section => {
+          if (isInViewport(section)) {
+            section.classList.add('active');
+          }
+        });
+
+        // Animate staggered items
+        document.querySelectorAll('.staggered-item').forEach(item => {
+          if (isInViewport(item)) {
+            const delay = item.getAttribute('data-delay') || 0;
+            setTimeout(() => {
+              item.classList.add('active');
+            }, delay);
+          }
+        });
+      }
+
+      // Initial check
+      handleScrollAnimation();
+
+      // Add scroll event listener
+      window.addEventListener('scroll', handleScrollAnimation);
+
+      // Add hover effect for cards
+      document.querySelectorAll('.card').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+          this.style.transform = 'translateY(-5px)';
+          this.style.boxShadow = '0 8px 16px rgba(0, 0, 0, 0.1)';
+        });
+
+        card.addEventListener('mouseleave', function() {
+          this.style.transform = 'translateY(0)';
+          this.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
+        });
+      });
+
+      // Add event listeners for copy buttons
+      document.getElementById('copyTitleBtn').addEventListener('click', function() {
+        copyToClipboard('videoTitle');
+      });
+
+      document.getElementById('copyDescriptionBtn').addEventListener('click', function() {
+        copyToClipboard('videoDescription');
+      });
+
+      document.getElementById('copyTagsBtn').addEventListener('click', function() {
+        copyToClipboard('videoTags');
+      });
+
+      // Add event listeners for export buttons
+      document.getElementById('exportJsonBtn').addEventListener('click', function() {
+        exportMetadata('json');
+      });
+
+      document.getElementById('exportCsvBtn').addEventListener('click', function() {
+        exportMetadata('csv');
+      });
+
+      document.getElementById('copyAllBtn').addEventListener('click', function() {
+        copyAllMetadata();
+      });
+
+      // Toggle sections visibility
+      const showMoreBtn = document.getElementById('showMoreBtn');
+      const aboutSection = document.getElementById('aboutSection');
+      const whyUseSection = document.getElementById('whyUseSection');
+      let sectionsVisible = false;
+
+      showMoreBtn.addEventListener('click', function() {
+        if (!sectionsVisible) {
+          // Show sections
+          aboutSection.classList.remove('hidden-section');
+          whyUseSection.classList.remove('hidden-section');
+          showMoreBtn.innerHTML = '<i class="fas fa-chevron-up"></i> Show Less Information';
+          sectionsVisible = true;
+        } else {
+          // Hide sections
+          aboutSection.classList.add('hidden-section');
+          whyUseSection.classList.add('hidden-section');
+          showMoreBtn.innerHTML = '<i class="fas fa-chevron-down"></i> Show More Information';
+          sectionsVisible = false;
+        }
+      });
+    });
+  </script>
+</body>
+</html>
