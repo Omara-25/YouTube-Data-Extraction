@@ -10,8 +10,6 @@
   <p>A powerful and user-friendly tool to extract metadata from YouTube videos.</p>
   <p>Get video titles, descriptions, tags, thumbnails, and other essential metadata with just a URL!</p>
   
-  <img src="https://i.imgur.com/JDpDQFY.png" alt="YouTube Metadata Extractor Screenshot" width="600">
-  
 </div>
 
 <br>
